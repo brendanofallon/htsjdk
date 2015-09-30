@@ -68,22 +68,14 @@ public class SAMIntegerTagTest {
         Assert.assertEquals(((Number) rec.getAttribute(INTEGER_TAG)).intValue(), 1);
     }
 
-    @Test(expectedExceptions = SAMException.class)
+    @Test
     public void testUnsignedIntegerBAM() throws Exception {
         SAMRecord rec = createSamRecord();
         final long val = 1l + Integer.MAX_VALUE;
         rec.setAttribute(UNSIGNED_INTEGER_TAG, val);
-        Assert.fail("Exception should have been thrown.");
-    }
-
-    /**
-     * Cannot store unsigned int in SAM text format.
-     */
-    @Test(expectedExceptions = SAMException.class)
-    public void testUnsignedIntegerSAM() throws Exception {
-        final SAMRecord rec = createSamRecord();
-        final long val = 1l + Integer.MAX_VALUE;
-        rec.setAttribute(UNSIGNED_INTEGER_TAG, val);
+        Object roundTripValue = rec.getAttribute(UNSIGNED_INTEGER_TAG);
+        Assert.assertTrue(roundTripValue instanceof Long);
+        Assert.assertEquals(roundTripValue, val);
     }
 
     @Test

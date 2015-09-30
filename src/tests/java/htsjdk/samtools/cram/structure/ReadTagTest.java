@@ -72,6 +72,18 @@ public class ReadTagTest {
     }
 
     @Test
+    public void testUnsignedInt() {
+        long intValue = Integer.MAX_VALUE+1L;
+        byte[] data = ReadTag.writeSingleValue((byte) 'I', intValue, false);
+        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+        byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        Object value = ReadTag.readSingleValue((byte) 'I', byteBuffer);
+        Assert.assertTrue(value instanceof Long);
+        long lValue = (Long)value;
+        Assert.assertEquals (lValue & 0xFFFFFFFF, intValue);
+    }
+
+    @Test
     public void testParallelReadTag() throws Exception {
         // NOTE: testng 5.5 (circa 2007) doesn't support parallel data providers, but modern versions do.
         // For now, roll our own.

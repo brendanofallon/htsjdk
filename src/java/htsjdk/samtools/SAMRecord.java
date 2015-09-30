@@ -1203,7 +1203,7 @@ public class SAMRecord implements Cloneable, Locatable, Serializable {
 
     protected void setAttribute(final short tag, final Object value, final boolean isUnsignedArray) {
         if (value != null &&
-                !(value instanceof Byte || value instanceof Short || value instanceof Integer ||
+                !(value instanceof Byte || value instanceof Short || value instanceof Integer || value instanceof Long ||
                         value instanceof String || value instanceof Character || value instanceof Float ||
                         value instanceof byte[] || value instanceof short[] || value instanceof int[] ||
                         value instanceof float[])) {

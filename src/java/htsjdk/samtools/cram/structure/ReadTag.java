@@ -21,6 +21,8 @@ import htsjdk.samtools.SAMException;
 import htsjdk.samtools.SAMFormatException;
 import htsjdk.samtools.SAMRecord.SAMTagAndValue;
 import htsjdk.samtools.SAMTagUtil;
+import htsjdk.samtools.SAMUtils;
+import htsjdk.samtools.SAMValidationError;
 import htsjdk.samtools.TagValueAndUnsignedArrayFlag;
 import htsjdk.samtools.util.StringUtil;
 
@@ -372,12 +374,7 @@ public class ReadTag implements Comparable<ReadTag> {
             case 'A':
                 return (char) byteBuffer.get();
             case 'I':
-                final long val = byteBuffer.getInt() & 0xffffffffL;
-                if (val <= Integer.MAX_VALUE) {
-                    return (int) val;
-                }
-                throw new RuntimeException(
-                        "Tag value is too large to store as signed integer.");
+                return byteBuffer.getInt() & 0xffffffffL;
             case 'i':
                 return byteBuffer.getInt();
             case 's':
